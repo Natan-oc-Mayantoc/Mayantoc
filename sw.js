@@ -1,5 +1,5 @@
 // Mayantoc PWA service worker
-const VERSION = 'mayantoc-v2';   // palitan (v2, v3...) tuwing may binago sa site para mag-update ang app
+const VERSION = 'mayantoc-v3';   // palitan (v2, v3...) tuwing may binago sa site para mag-update ang app
 const PRECACHE = [
   "about.html",
   "awards.html",
@@ -33,36 +33,23 @@ self.addEventListener('activate', e => {
   );
 });
 
-// Network-first para sa mga pahina (laging bago kapag may internet), cache-first para sa assets
+// Network-first para sa lahat ng sariling files (laging pinakabago kapag may internet),
+// cache lang ang gagamitin kapag offline.
 self.addEventListener('fetch', e => {
   const req = e.request;
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
+  if (url.origin !== location.origin && !url.host.includes('fonts.g')) return;
 
-  if (req.mode === 'navigate') {
-    e.respondWith(
-      fetch(req).then(res => {
+  e.respondWith(
+    fetch(req).then(res => {
+      if (res && (res.ok || res.type === 'opaque')) {
         const copy = res.clone();
         caches.open(VERSION).then(c => c.put(req, copy));
-        return res;
-      }).catch(() => caches.match(req).then(r => r || caches.match('index.html')))
-    );
-    return;
-  }
-
-  // same-origin + Google Fonts: stale-while-revalidate
-  if (url.origin === location.origin || url.host.includes('fonts.g')) {
-    e.respondWith(
-      caches.match(req).then(cached => {
-        const net = fetch(req).then(res => {
-          if (res && (res.ok || res.type === 'opaque')) {
-            const copy = res.clone();
-            caches.open(VERSION).then(c => c.put(req, copy));
-          }
-          return res;
-        }).catch(() => cached);
-        return cached || net;
-      })
-    );
-  }
+      }
+      return res;
+    }).catch(() =>
+      caches.match(req, { ignoreSearch: true }).then(r => r || (req.mode === 'navigate' ? caches.match('index.html') : undefined))
+    )
+  );
 });
