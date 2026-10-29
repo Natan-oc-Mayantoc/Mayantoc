@@ -753,3 +753,41 @@ ul { list-style: none; }
 .leader-card__placeholder { transition: background 0.3s var(--ease); }
 .leader-card:hover .leader-card__placeholder { background: var(--sun); }
 [data-theme="dark"] .leader-card:hover .leader-card__placeholder { background: rgba(227,181,75,0.1); }
+/* =====================================================
+   MOBILE / RESPONSIVE FIXES
+   - walang horizontal scroll sa kahit anong device
+   - hindi na naputol ang hero at floating cards
+   - kasya ang header sa pinakamaliit na phone (320px)
+   ===================================================== */
+html { max-width: 100%; overflow-x: hidden; overflow-x: clip; }
+body { max-width: 100%; overflow-x: hidden; overflow-x: clip; }
+img, video, svg, iframe, table { max-width: 100%; }
+.hero__content > *, .container > *, .header__inner > * { min-width: 0; }
+
+@media (max-width: 1024px) {
+  /* 1fr = minmax(auto,1fr) kaya lumalapad; minmax(0,1fr) ang tama */
+  .hero__content { grid-template-columns: minmax(0, 1fr); perspective: none; }
+  .hero__left { transform: none; }
+  .hero__right, .carousel-wrap { transform-style: flat; }
+  /* ilagay sa loob ng screen ang floating cards */
+  .float-card--1 { left: 8px; bottom: -16px; }
+  .float-card--2 { right: 8px; top: -12px; }
+}
+
+@media (max-width: 480px) {
+  .header__inner { gap: 8px; }
+  .brand { flex-shrink: 1; min-width: 0; gap: 8px; }
+  .brand__text { min-width: 0; }
+  .brand__name, .brand__sub { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .header__actions { gap: 0; }
+  .icon-btn, .hamburger { width: 36px; height: 36px; }
+  .top-bar { padding-left: 8px; padding-right: 8px; }
+}
+
+@media (max-width: 360px) {
+  .brand__seal { width: 32px; height: 32px; }
+  .brand__name { font-size: 11.5px; }
+  .brand__sub { display: none; }
+  .icon-btn, .hamburger { width: 32px; height: 32px; }
+  .icon-btn svg { width: 17px; height: 17px; }
+}
