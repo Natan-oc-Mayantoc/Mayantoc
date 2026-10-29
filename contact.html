@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Contact · Bayan ng Mayantoc, Tarlac</title>
+  <meta name="description" content="Contact details, hotline at feedback form ng Bayan ng Mayantoc." />
+  <meta name="theme-color" content="#24503A" />
+  <meta property="og:title" content="Contact · Bayan ng Mayantoc" />
+  <meta property="og:description" content="Contact details, hotline at feedback form ng Bayan ng Mayantoc." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="assets/mayantoc.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css" />
+  <style>
+    /* ===== Contact form ===== */
+    .contact-form { position: relative; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: clamp(28px, 4vw, 40px); }
+    .contact-form .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .contact-form .form-group { margin-bottom: 16px; }
+    .contact-form .form-row .form-group { margin-bottom: 0; }
+    .contact-form label { display: block; font-size: 12.5px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+    .contact-form input[type="text"],
+    .contact-form input[type="email"],
+    .contact-form textarea {
+      width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: var(--radius-md);
+      background: var(--off-white); font-family: inherit; font-size: 14px; color: var(--ink); outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .contact-form textarea { resize: vertical; min-height: 120px; }
+    .contact-form input:focus, .contact-form textarea:focus { border-color: var(--forest); box-shadow: 0 0 0 3px rgba(58,122,85,0.18); }
+    .contact-form .form-group.invalid input,
+    .contact-form .form-group.invalid textarea { border-color: #C0392B; box-shadow: 0 0 0 3px rgba(192,57,43,0.12); }
+    .form-error { display: block; font-size: 12px; font-weight: 600; color: #C0392B; margin-top: 6px; }
+    .form-error:empty { display: none; }
+    .form-status { display: none; align-items: flex-start; gap: 10px; padding: 14px 16px; border-radius: var(--radius-md); font-size: 13.5px; font-weight: 600; line-height: 1.55; margin-bottom: 20px; }
+    .form-status.success { display: flex; background: var(--light-gray); border: 1px solid var(--emerald); color: var(--forest); }
+    .form-status.error { display: flex; background: var(--sun); border: 1px solid var(--gold); color: var(--ink); }
+    .form-status a { text-decoration: underline; color: inherit; }
+    .contact-form .form-note { font-size: 12px; color: var(--muted); margin-top: 14px; line-height: 1.5; }
+    .contact-form button[disabled] { opacity: .7; cursor: wait; }
+    .form-honey { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+    .mini-toast { position: fixed; left: 50%; bottom: 28px; transform: translate(-50%, 20px); z-index: 2600; background: var(--deep-green); color: #fff; padding: 12px 22px; border-radius: 999px; font-size: 13.5px; font-weight: 600; box-shadow: var(--shadow-xl); opacity: 0; pointer-events: none; transition: opacity .3s, transform .3s; }
+    .mini-toast.show { opacity: 1; transform: translate(-50%, 0); }
+    @media (max-width: 640px) { .contact-form .form-row { grid-template-columns: 1fr; gap: 0; } .contact-form .form-row .form-group { margin-bottom: 16px; } }
+  </style>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Mayantoc" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+</head>
+<body data-page="contact.html">
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader__seal"><img class="js-logo" src="assets/mayantoc.jpg" alt="" /></div>
+    <div class="loader__text">Mayantoc</div>
+    <div class="loader__sub">Lalawigan ng Tarlac</div>
+    <div class="loader__bar"><span></span></div>
+  </div>
+
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+  <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
+  <div class="top-bar">
+    <div class="container">
+      <span>Republika ng Pilipinas</span><span class="sep">·</span>
+      <span>Lalawigan ng Tarlac</span><span class="sep">·</span>
+      <span>Bayan ng Mayantoc</span>
+    </div>
+  </div>
+
+  <header class="header" id="header">
+    <div class="container header__inner">
+      <a href="index.html" class="brand" aria-label="Bayan ng Mayantoc — Home">
+        <div class="brand__seal" aria-hidden="true"><img class="js-logo" src="assets/mayantoc.jpg" alt="" /></div>
+        <div class="brand__text">
+          <span class="brand__name">Bayan ng Mayantoc</span>
+          <span class="brand__sub">Lalawigan ng Tarlac</span>
+        </div>
+      </a>
+
+      <nav class="nav" aria-label="Pangunahing nabigasyon">
+        <a href="index.html" class="nav__link">Home</a>
+        <a href="about.html" class="nav__link">Tungkol</a>
+        <a href="government.html" class="nav__link">Pamahalaan</a>
+        <a href="services.html" class="nav__link">Serbisyo</a>
+        <a href="barangays.html" class="nav__link">Barangay</a>
+        <a href="news.html" class="nav__link">Balita</a>
+        <a href="events.html" class="nav__link">Events</a>
+        <a href="awards.html" class="nav__link">Parangal</a>
+        <a href="transparency.html" class="nav__link">Transparency</a>
+        <a href="contact.html" class="nav__link active">Contact</a>
+      </nav>
+      <div class="header__actions">
+        <!-- LIVE CLOCK -->
+        <div class="header__clock" id="live-clock" aria-live="off">
+          <span class="header__clock-date">--</span>
+          <span class="header__clock-time">--:--</span>
+        </div>
+
+        <button class="icon-btn" aria-label="Buksan ang search" id="searchToggle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+        <button class="icon-btn" aria-label="Ilipat sa dark mode" id="themeToggle">
+          <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <button class="icon-btn" aria-label="Accessibility options" id="a11yToggle" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="21.17" y1="8" x2="12" y2="8"/><line x1="3.95" y1="6.06" x2="8.54" y2="14"/><line x1="10.88" y1="21.94" x2="15.46" y2="14"/></svg>
+        </button>
+        <button class="hamburger" id="hamburger" aria-label="Buksan ang menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="a11y-panel" id="a11yPanel" role="dialog" aria-label="Accessibility settings">
+    <div class="a11y-panel__title">Accessibility</div>
+    <div class="a11y-group">
+      <div class="a11y-group__label">Laki ng teksto</div>
+      <div class="a11y-buttons">
+        <button class="a11y-btn" data-font="0.9">A−</button>
+        <button class="a11y-btn active" data-font="1">A</button>
+        <button class="a11y-btn" data-font="1.15">A+</button>
+      </div>
+    </div>
+    <div class="a11y-group">
+      <div class="a11y-group__label">Contrast</div>
+      <div class="a11y-buttons">
+        <button class="a11y-btn active" data-contrast="normal">Normal</button>
+        <button class="a11y-btn" data-contrast="high">Mataas</button>
+      </div>
+    </div>
+    <div class="a11y-group">
+      <div class="a11y-group__label">Galaw</div>
+      <div class="a11y-buttons">
+        <button class="a11y-btn active" data-motion="normal">Normal</button>
+        <button class="a11y-btn" data-motion="reduced">Bawas</button>
+      </div>
+    </div>
+    <button class="a11y-reset" id="a11yReset">I-reset ang settings</button>
+  </div>
+
+  <div class="drawer-overlay" id="drawerOverlay" aria-hidden="true"></div>
+  <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Mobile navigation">
+    <div class="drawer__header">
+      <div class="brand">
+        <div class="brand__seal" aria-hidden="true"><img class="js-logo" src="assets/mayantoc.jpg" alt="" /></div>
+        <div class="brand__text">
+          <span class="brand__name">Mayantoc</span>
+          <span class="brand__sub">Lalawigan ng Tarlac</span>
+        </div>
+      </div>
+      <button class="drawer__close" id="drawerClose" aria-label="Isara ang menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <nav class="drawer__nav" aria-label="Mobile navigation links">
+      <a href="index.html" class="drawer__link">Home</a>
+      <a href="about.html" class="drawer__link">Tungkol</a>
+      <a href="government.html" class="drawer__link">Pamahalaan</a>
+      <a href="services.html" class="drawer__link">Serbisyo</a>
+      <a href="barangays.html" class="drawer__link">Barangay</a>
+      <a href="news.html" class="drawer__link">Balita</a>
+      <a href="events.html" class="drawer__link">Events</a>
+      <a href="awards.html" class="drawer__link">Parangal</a>
+      <a href="transparency.html" class="drawer__link">Transparency</a>
+      <a href="contact.html" class="drawer__link active">Contact</a>
+    </nav>
+  </aside>
+
+  <div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Site search" style="position:fixed;inset:0;background:rgba(24,54,40,0.68);backdrop-filter:blur(8px);z-index:3000;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s;padding:80px 20px 20px;overflow-y:auto;">
+    <div style="max-width:680px;margin:0 auto;background:var(--white);border-radius:var(--radius-lg);box-shadow:var(--shadow-xl);overflow:hidden;">
+      <div style="position:relative;border-bottom:1px solid var(--border);">
+        <svg style="position:absolute;left:22px;top:50%;transform:translateY(-50%);width:20px;height:20px;color:var(--muted);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="siteSearchInput" placeholder="Maghanap ng serbisyo, barangay, dokumento…" aria-label="Search site" autocomplete="off" style="width:100%;padding:22px 60px 22px 58px;border:none;background:transparent;font-family:inherit;font-size:17px;color:var(--ink);outline:none;" />
+        <button id="searchClose" aria-label="Isara ang search" style="position:absolute;right:16px;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--muted);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div id="searchResults" style="max-height:440px;overflow-y:auto;"></div>
+    </div>
+  </div>
+
+  <main id="main">
+
+    <section class="page-header">
+      <div class="container">
+        <div class="page-header__eyebrow">Makipag-ugnayan</div>
+        <h1>Contact ang munisipyo</h1>
+        <p>Tanong, hiling, o puna — narito ang paraan para maabot ang pamahalaang bayan.</p>
+        <div class="page-header__crumbs"><a href="index.html">Home</a> <span>/</span> <span>Contact</span></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="contact-grid">
+          <div class="contact-info reveal">
+            <div class="contact-map">
+              <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" aria-label="Mapa ng Mayantoc">
+                <rect width="400" height="300" fill="#F1EFE3"/>
+                <path d="M0,180 Q100,140 200,170 T400,150" stroke="#3A7A55" stroke-width="2" fill="none" opacity="0.35"/>
+                <path d="M0,220 Q150,200 250,230 T400,210" stroke="#3A7A55" stroke-width="1.5" fill="none" opacity="0.22"/>
+                <path d="M100,0 Q120,100 80,200 T120,300" stroke="#3A7A55" stroke-width="1.5" fill="none" opacity="0.16"/>
+                <path d="M280,0 Q260,120 300,220 T280,300" stroke="#3A7A55" stroke-width="1.5" fill="none" opacity="0.16"/>
+                <circle cx="200" cy="150" r="8" fill="#E3B54B"/>
+                <circle cx="200" cy="150" r="16" fill="none" stroke="#E3B54B" stroke-width="1.5" opacity="0.45"/>
+                <circle cx="200" cy="150" r="28" fill="none" stroke="#E3B54B" stroke-width="1" opacity="0.25"/>
+                <text x="200" y="185" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#24503A" letter-spacing="1.5">MAYANTOC</text>
+                <text x="200" y="200" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="500" fill="#6E7B71" letter-spacing="1">TARLAC · PILIPINAS</text>
+              </svg>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-item__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg></div>
+              <div><div class="contact-item__label">Municipal Hall</div><div class="contact-item__value">[OFFICIAL INFORMATION TO BE INSERTED]</div></div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-item__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+              <div><div class="contact-item__label">Telepono</div><div class="contact-item__value">[OFFICIAL INFORMATION TO BE INSERTED]</div></div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-item__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+              <div><div class="contact-item__label">Email</div><div class="contact-item__value">[OFFICIAL INFORMATION TO BE INSERTED]</div></div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-item__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+              <div><div class="contact-item__label">Oras ng tanggapan</div><div class="contact-item__value">Lunes hanggang Biyernes, 8:00 AM – 5:00 PM</div></div>
+            </div>
+          </div>
+
+          <form class="contact-form reveal" id="contactForm" novalidate>
+            <div class="form-status" id="formStatus" role="status" aria-live="polite"></div>
+
+            <!-- Honeypot laban sa spam bots (huwag tanggalin; nakatago ito sa tao) -->
+            <input type="text" name="_honey" id="honey" class="form-honey" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">Buong pangalan</label>
+                <input type="text" id="name" name="name" placeholder="Juan Dela Cruz" maxlength="100" autocomplete="name" required />
+                <span class="form-error" id="nameError"></span>
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="juan@email.com" maxlength="150" autocomplete="email" required />
+                <span class="form-error" id="emailError"></span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="subject">Paksa</label>
+              <input type="text" id="subject" name="subject" placeholder="Halimbawa: tanong sa business permit" maxlength="150" required />
+              <span class="form-error" id="subjectError"></span>
+            </div>
+            <div class="form-group">
+              <label for="message">Mensahe</label>
+              <textarea id="message" name="message" rows="5" placeholder="Isulat dito ang inyong tanong o puna…" maxlength="3000" required></textarea>
+              <span class="form-error" id="messageError"></span>
+            </div>
+            <button type="submit" id="submitBtn" class="btn btn--dark" style="width:100%;justify-content:center;">
+              <span>Ipadala</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </button>
+            <p class="form-note">
+              Ang inyong mensahe ay direktang ipapadala sa email ng tanggapan. Sasagutin ito sa email na inyong inilagay sa itaas.
+            </p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--alt">
+      <div class="container">
+        <div class="section__header section__header--center reveal">
+          <div class="section__label">Emergency</div>
+          <h2 class="section__title">Mahahalagang numero</h2>
+          <p class="section__sub">Ang mga hotline ay ilalagay mula sa opisyal na listahan ng munisipyo.</p>
+        </div>
+        <div class="emergency-grid" id="emergencyGrid"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer__hero">
+        <div class="footer__hero-title">MAYANTOC</div>
+        <div class="footer__hero-sub">Serbisyong malapit sa tao, bawat araw.</div>
+      </div>
+
+      <div class="footer__grid">
+        <div>
+          <div class="footer__brand">
+            <div class="brand__seal" aria-hidden="true"><img class="js-logo" src="assets/mayantoc.jpg" alt="" /></div>
+            <div class="brand__text">
+              <span class="brand__name">Bayan ng Mayantoc</span>
+              <span class="brand__sub">Lalawigan ng Tarlac</span>
+            </div>
+          </div>
+          <p class="footer__desc">Opisyal na digital portal ng Pamahalaang Bayan ng Mayantoc, Tarlac.</p>
+        </div>
+        <div>
+          <h3 class="footer__title">Pamahalaan</h3>
+          <div class="footer__links">
+            <a href="about.html">Tungkol sa bayan</a>
+            <a href="government.html">Mga opisyal</a>
+            <a href="transparency.html">Transparency</a>
+            <a href="awards.html">Mga parangal</a>
+          </div>
+        </div>
+        <div>
+          <h3 class="footer__title">Serbisyo</h3>
+          <div class="footer__links">
+            <a href="services.html">Civil registry</a>
+            <a href="services.html">Business permits</a>
+            <a href="services.html">Real property tax</a>
+            <a href="services.html">Kalusugan</a>
+          </div>
+        </div>
+        <div>
+          <h3 class="footer__title">Mabilisang link</h3>
+          <div class="footer__links">
+            <a href="barangays.html">24 barangay</a>
+            <a href="news.html">Balita</a>
+            <a href="events.html">Events</a>
+            <a href="contact.html">Contact</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <span>© 2026 Bayan ng Mayantoc. Lahat ng karapatan ay nakalaan.</span>
+        <div class="footer__bottom-links">
+          <a href="contact.html">Privacy</a>
+          <a href="contact.html">Accessibility</a>
+          <a href="contact.html">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <button class="back-to-top" id="backToTop" aria-label="Balik sa itaas">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+  </button>
+
+  <script src="assets/data.js"></script>
+  <script src="assets/app.js"></script>
+
+  <script>
+  (function () {
+    const D = MAY.DATA;
+    const $ = (sel, root = document) => root.querySelector(sel);
+
+    /* =====================================================
+       SITE CONFIG — dito ang settings ng contact form
+       ===================================================== */
+    const SITE_CONFIG = {
+      contactForm: {
+        // Saan ipinapadala ang form. Default: FormSubmit (walang signup).
+        // Pwede ring palitan ng Formspree: "https://formspree.io/f/XXXXXXXX"
+        // Kapag "YOUR_FORM_ID" o blangko, email app na lang ng bisita ang bubukas.
+        formEndpoint: "https://formsubmit.co/ajax/hagokenneth@gmail.com",
+        // Dito pupunta ang mensahe kapag email app ang gagamitin (backup)
+        fallbackEmail: "hagokenneth@gmail.com",
+        subjectPrefix: "[Mayantoc Website] ",
+        cooldownMs: 30000 // 30 segundo bago makapag-send ulit (iwas spam)
+      }
+    };
+
+    /* ---------- Emergency cards ---------- */
+    const icons = {
+      "MDRRMO": '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+      "PNP": '<circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>',
+      "BFP": '<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>',
+      "RHU": '<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>',
+      "Municipal Hall": '<path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/>'
+    };
+    $('#emergencyGrid').innerHTML = D.emergency.map(e => `
+      <article class="emergency-card reveal">
+        <div class="emergency-card__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${icons[e.name] || icons.RHU}</svg></div>
+        <div class="emergency-card__title">${e.name}</div>
+        <div class="emergency-card__desc">${e.desc}<br>Hotline: ilalagay</div>
+      </article>`).join('');
+
+    /* ---------- Toast ---------- */
+    function showToast(text) {
+      let t = $('#miniToast');
+      if (!t) {
+        t = document.createElement('div');
+        t.id = 'miniToast';
+        t.className = 'mini-toast';
+        t.setAttribute('role', 'status');
+        document.body.appendChild(t);
+      }
+      t.textContent = text;
+      requestAnimationFrame(() => t.classList.add('show'));
+      clearTimeout(showToast._timer);
+      showToast._timer = setTimeout(() => t.classList.remove('show'), 3500);
+    }
+
+    /* ---------- Contact form ---------- */
+    (function initContactForm() {
+      const form = $('#contactForm');
+      if (!form) return;
+      const status = $('#formStatus');
+      const submitBtn = $('#submitBtn');
+      const honey = $('#honey');
+      const CFG = SITE_CONFIG.contactForm;
+      const FORM_ENDPOINT = CFG.formEndpoint;
+      const FALLBACK_EMAIL = CFG.fallbackEmail;
+      let lastSent = 0;
+      let sending = false;
+
+      const fields = {
+        name: { input: $('#name', form), error: $('#nameError', form), validate: v => v.trim().length >= 2, message: 'Pakilagay po ang inyong pangalan.' },
+        email: {
+          input: $('#email', form), error: $('#emailError', form),
+          validate: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()),
+          message: 'Pakilagay po ang tamang email. Halimbawa: juan@email.com'
+        },
+        subject: { input: $('#subject', form), error: $('#subjectError', form), validate: v => v.trim().length >= 3, message: 'Pakilagay po ang maikling paksa.' },
+        message: { input: $('#message', form), error: $('#messageError', form), validate: v => v.trim().length >= 10, message: 'Dapat hindi bababa sa 10 character ang mensahe.' }
+      };
+
+      function validateField(field) {
+        const valid = field.validate(field.input.value);
+        field.input.closest('.form-group').classList.toggle('invalid', !valid);
+        field.error.textContent = valid ? '' : field.message;
+        return valid;
+      }
+
+      Object.values(fields).forEach(field => {
+        if (!field.input) return;
+        field.input.addEventListener('blur', () => validateField(field));
+        field.input.addEventListener('input', () => {
+          if (field.input.closest('.form-group').classList.contains('invalid')) validateField(field);
+        });
+      });
+
+      function setStatus(text, type) {
+        status.textContent = text;
+        status.className = 'form-status' + (type ? ' ' + type : '');
+      }
+
+      function setSending(state) {
+        sending = state;
+        submitBtn.disabled = state;
+        submitBtn.querySelector('span').textContent = state ? 'Ipinapadala…' : 'Ipadala';
+      }
+
+      // Backup: bubuksan ang email app ng bisita, nakalagay na ang mensahe at ang address
+      function openMailtoFallback() {
+        const name = fields.name.input.value.trim();
+        const email = fields.email.input.value.trim();
+        const subject = fields.subject.input.value.trim();
+        const message = fields.message.input.value.trim();
+        const body = `Mula kay: ${name} (${email})\n\n${message}`;
+        const mailto = `mailto:${FALLBACK_EMAIL}?subject=${encodeURIComponent(CFG.subjectPrefix + subject)}&body=${encodeURIComponent(body)}`;
+        // Pansamantalang link na kini-click ng code: mas maaasahan sa iba't ibang browser
+        const link = document.createElement('a');
+        link.href = mailto;
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+        if (sending) return;
+
+        let allValid = true;
+        Object.values(fields).forEach(field => {
+          if (!field.input) return;
+          if (!validateField(field)) allValid = false;
+        });
+        if (!allValid) {
+          setStatus('Pakiayos muna ang mga naka-highlight na patlang.', 'error');
+          return;
+        }
+
+        // Kapag napunan ang honeypot, bot ito — magpanggap na success pero huwag magpadala
+        if (honey && honey.value) {
+          form.reset();
+          setStatus('Naipadala na ang inyong mensahe. Salamat po!', 'success');
+          return;
+        }
+
+        const wait = CFG.cooldownMs - (Date.now() - lastSent);
+        if (lastSent && wait > 0) {
+          setStatus('Sandali lang po. Maghintay ng ' + Math.ceil(wait / 1000) + ' segundo bago magpadala ulit.', 'error');
+          return;
+        }
+
+        setSending(true);
+        setStatus('', '');
+
+        const endpointReady = FORM_ENDPOINT && !FORM_ENDPOINT.includes('YOUR_FORM_ID');
+
+        if (!endpointReady) {
+          // Walang naka-set na online endpoint: email app ng bisita ang bubuksan
+          setSending(false);
+          openMailtoFallback();
+          setStatus('Bubuksan na ang inyong email app na nakahanda na ang mensahe. Pindutin lang ang Send doon para maipadala.', 'success');
+          return;
+        }
+
+        const payload = new FormData(form);
+        payload.delete('_honey');
+        payload.append('_subject', CFG.subjectPrefix + fields.subject.input.value.trim());
+        payload.append('_replyto', fields.email.input.value.trim());
+        payload.append('_template', 'table');
+        payload.append('_captcha', 'false');
+
+        fetch(FORM_ENDPOINT, {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: payload
+        })
+          .then(async response => {
+            const result = await response.json().catch(() => ({}));
+            // FormSubmit: {success:"true"}  |  Formspree: {ok:true}
+            const accepted = response.ok && result.success !== 'false' && result.success !== false && result.ok !== false;
+            setSending(false);
+            if (accepted) {
+              lastSent = Date.now();
+              form.reset();
+              Object.values(fields).forEach(f => f.input.closest('.form-group').classList.remove('invalid'));
+              setStatus('Salamat po! Naipadala na ang inyong mensahe. Sasagutin namin ito sa lalong madaling panahon.', 'success');
+              showToast('Matagumpay na naipadala ang mensahe.');
+            } else {
+              setStatus('May problema sa pagpapadala. Bubuksan na lang ang inyong email app…', 'error');
+              openMailtoFallback();
+            }
+          })
+          .catch(() => {
+            setSending(false);
+            setStatus('Hindi maabot ang server. Bubuksan na lang ang inyong email app…', 'error');
+            openMailtoFallback();
+          });
+      });
+    })();
+
+    if (MAY.observeReveals) MAY.observeReveals();
+  })();
+  </script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('sw.js').catch(function (e) { console.warn('SW failed', e); });
+      });
+    }
+  </script>
+</body>
+</html>

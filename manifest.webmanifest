@@ -1,0 +1,46 @@
+{
+  "name": "Bayan ng Mayantoc, Tarlac",
+  "short_name": "Mayantoc",
+  "description": "Opisyal na digital portal ng Pamahalaang Bayan ng Mayantoc, Tarlac.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#24503A",
+  "theme_color": "#24503A",
+  "lang": "tl",
+  "icons": [
+    {
+      "src": "assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Mga Barangay",
+      "url": "barangays.html"
+    },
+    {
+      "name": "Serbisyo",
+      "url": "services.html"
+    },
+    {
+      "name": "Contact",
+      "url": "contact.html"
+    }
+  ]
+}

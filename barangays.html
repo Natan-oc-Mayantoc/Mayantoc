@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Mga barangay · Bayan ng Mayantoc, Tarlac</title>
+  <meta name="description" content="Direktoryo ng 24 barangay ng Bayan ng Mayantoc, Tarlac." />
+  <meta name="theme-color" content="#24503A" />
+  <meta property="og:title" content="Mga barangay · Bayan ng Mayantoc" />
+  <meta property="og:description" content="Direktoryo ng 24 barangay ng Bayan ng Mayantoc, Tarlac." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="assets/mayantoc.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css?v=2" />
+  <style id="brgy-modal-css">
+/* ==================================================================
+   BARANGAY MODAL
+   ================================================================== */
+.brgy-modal {
+  position: fixed; inset: 0; z-index: 2500;
+  display: flex; align-items: center; justify-content: center;
+  padding: clamp(10px, 3vw, 32px);
+  background: rgba(24,54,40,0.62);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  opacity: 0; visibility: hidden;
+  transition: opacity 0.3s var(--ease), visibility 0.3s var(--ease);
+}
+.brgy-modal.open { opacity: 1; visibility: visible; }
+
+.brgy-modal__dialog {
+  position: relative; width: min(980px, 100%);
+  max-height: min(92vh, 920px);
+  display: flex; flex-direction: column;
+  background: var(--off-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
+  overflow: hidden;
+  transform: translateY(24px) scale(0.98);
+  transition: transform 0.4s var(--ease);
+}
+.brgy-modal.open .brgy-modal__dialog { transform: translateY(0) scale(1); }
+
+.brgy-modal__close {
+  position: absolute; top: 16px; right: 16px; z-index: 10;
+  width: 40px; height: 40px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(255,255,255,0.92); color: var(--deep-green);
+  box-shadow: var(--shadow-md);
+  transition: transform 0.3s var(--ease), background 0.2s;
+}
+.brgy-modal__close:hover { background: var(--gold-light); transform: rotate(90deg); }
+[data-theme="dark"] .brgy-modal__close { background: rgba(22,40,31,0.92); color: var(--ink); }
+[data-theme="dark"] .brgy-modal__close:hover { background: var(--forest); }
+
+.brgy-modal__scroll { flex: 1; overflow-y: auto; overscroll-behavior: contain; }
+
+.brgy-modal__hero {
+  position: relative; aspect-ratio: 21 / 8; min-height: 230px;
+  background: var(--deep-green); overflow: hidden;
+}
+.brgy-modal__hero > img { width: 100%; height: 100%; object-fit: cover; }
+.brgy-modal__hero-placeholder {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  padding-bottom: 60px; text-align: center;
+  font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  background: linear-gradient(135deg, var(--deep-green) 0%, var(--forest) 100%);
+}
+.brgy-modal__hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(18,38,28,0.9) 0%, rgba(18,38,28,0.35) 55%, transparent 100%);
+}
+.brgy-modal__hero-content {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 2;
+  display: flex; align-items: flex-end; gap: 18px;
+  padding: clamp(18px, 3vw, 30px); color: #fff;
+}
+.brgy-modal__logo {
+  width: clamp(68px, 9vw, 96px); height: clamp(68px, 9vw, 96px);
+  border-radius: 50%; flex-shrink: 0; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--white); border: 3px solid var(--gold);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.28);
+}
+.brgy-modal__logo img { width: 100%; height: 100%; object-fit: contain; padding: 6px; }
+.brgy-modal__logo span { font-size: 26px; font-weight: 800; color: var(--deep-green); }
+.brgy-modal__eyebrow {
+  font-size: 11px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 4px;
+}
+.brgy-modal__title {
+  font-size: clamp(1.6rem, 3.6vw, 2.6rem); font-weight: 800;
+  letter-spacing: -0.04em; line-height: 1.08; color: #fff;
+}
+
+.brgy-modal__content { padding: clamp(22px, 4vw, 40px); }
+.brgy-modal__desc { font-size: 15px; color: var(--muted); line-height: 1.75; max-width: 70ch; margin-bottom: 32px; }
+
+.brgy-modal__section { margin-bottom: clamp(28px, 4vw, 40px); }
+.brgy-modal__section:last-child { margin-bottom: 0; }
+.brgy-modal__section-head { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+.brgy-modal__section-head h3 {
+  font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--forest); white-space: nowrap; display: flex; align-items: center; gap: 10px;
+}
+.brgy-modal__section-head h3::before { content: ''; width: 22px; height: 2px; background: var(--gold); border-radius: 2px; }
+[data-theme="dark"] .brgy-modal__section-head h3 { color: var(--gold); }
+.brgy-modal__section-line { flex: 1; height: 1px; background: var(--border); }
+
+.brgy-modal__empty {
+  grid-column: 1 / -1; text-align: center; padding: 28px;
+  border: 1.5px dashed var(--border); border-radius: var(--radius-md);
+  color: var(--muted); font-size: 13.5px;
+}
+
+.official-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
+.official-card {
+  position: relative; overflow: hidden;
+  background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg);
+  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
+}
+.official-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+.official-card::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--forest), var(--gold));
+  transform: scaleX(0); transform-origin: left; transition: transform 0.4s var(--ease);
+}
+.official-card:hover::after { transform: scaleX(1); }
+.official-card__img {
+  aspect-ratio: 1 / 1; overflow: hidden; background: var(--light-gray);
+  display: flex; align-items: center; justify-content: center;
+}
+.official-card__img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s var(--ease); }
+.official-card:hover .official-card__img img { transform: scale(1.05); }
+.official-card__initials { font-size: 2rem; font-weight: 800; color: var(--muted); letter-spacing: 1px; }
+.official-card:hover .official-card__img { background: var(--sun); }
+.official-card__body { padding: 14px 14px 18px; text-align: center; }
+.official-card__name {
+  font-size: 13.5px; font-weight: 700; color: var(--ink);
+  line-height: 1.35; letter-spacing: -0.01em; margin-bottom: 5px;
+  overflow-wrap: anywhere;
+}
+.official-card__role {
+  font-size: 10.5px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase;
+  color: var(--forest);
+}
+[data-theme="dark"] .official-card__role { color: var(--gold); }
+
+.brgy-contact { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+.brgy-contact__item {
+  display: flex; flex-direction: column; gap: 4px;
+  padding: 18px 20px; background: var(--white);
+  border: 1px solid var(--border); border-left: 3px solid var(--gold);
+  border-radius: var(--radius-md);
+}
+.brgy-contact__label { font-size: 10.5px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); }
+.brgy-contact__value { font-size: 14.5px; font-weight: 600; color: var(--ink); line-height: 1.5; overflow-wrap: anywhere; }
+.brgy-contact__value a { color: var(--forest); transition: color 0.2s; }
+.brgy-contact__value a:hover { color: var(--emerald); text-decoration: underline; }
+[data-theme="dark"] .brgy-contact__value a { color: var(--gold); }
+
+.brgy-history {
+  padding: clamp(20px, 3vw, 28px); background: var(--white);
+  border: 1px solid var(--border); border-left: 3px solid var(--gold);
+  border-radius: var(--radius-md);
+}
+.brgy-history p { font-size: 15px; color: var(--ink); line-height: 1.85; max-width: 75ch; }
+.brgy-history p + p { margin-top: 14px; }
+.brgy-history--empty p { color: var(--muted); font-size: 13.5px; }
+
+@media (max-width: 640px) {
+  .brgy-modal { padding: 0; align-items: flex-end; }
+  .brgy-modal__dialog { max-height: 94vh; border-radius: var(--radius-xl) var(--radius-xl) 0 0; width: 100%; }
+  .brgy-modal__hero { aspect-ratio: 16 / 10; }
+  .official-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .brgy-contact { grid-template-columns: 1fr; }
+  .brgy-modal__section-head h3 { white-space: normal; }
+}
+  </style>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Mayantoc" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+</head>
+<body data-page="barangays.html">
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader__seal"><img class="js-logo" src="assets/mayantoc.jpg" alt="" /></div>
+    <div class="loader__text">Mayantoc</div>
+    <div class="loader__sub">Lalawigan ng Tarlac</div>
+    <div class="loader__bar"><span></span></div>
+  </div>
+
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+  <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
+  <div class="top-bar">
+    <div class="container">
+      <span>Republika ng Pilipinas</span><span class="sep">·</span>
+      <span>Lalawigan ng Tarlac</span><span class="sep">·</span>
+      <span>Bayan ng Mayantoc</span>
+    </div>
+  </div>
+
+  <header class="header" id="header">
+    <div class="container header__inner">
+      <a href="index.html" class="brand" aria-label="Bayan ng Mayantoc — Home">
+        <div class="brand__seal" aria-hidden="true"><img class="js-logo" src="assets/mayantoc.jpg" alt="" /></div>
+        <div class="brand__text">
+          <span class="brand__name">Bayan ng Mayantoc</span>
+          <span class="brand__sub">Lalawigan ng Tarlac</span>
+        </div>
+      </a>
+
+      <nav class="nav" aria-label="Pangunahing nabigasyon">
+        <a href="index.html" class="nav__link">Home</a>
+        <a href="about.html" class="nav__link">Tungkol</a>
+        <a href="government.html" class="nav__link">Pamahalaan</a>
+        <a href="services.html" class="nav__link">Serbisyo</a>
+        <a href="barangays.html" class="nav__link active">Barangay</a>
+        <a href="news.html" class="nav__link">Balita</a>
+        <a href="events.html" class="nav__link">Events</a>
+        <a href="awards.html" class="nav__link">Parangal</a>
+        <a href="transparency.html" class="nav__link">Transparency</a>
+        <a href="contact.html" class="nav__link">Contact</a>
+      </nav>
+
+      <div class="header__actions">
+        <div class="header__clock" id="live-clock" aria-live="off">
+          <span class="header__clock-date">--</span>
+          <span class="header__clock-time">--:--</span>
+        </div>
+
+        <button class="icon-btn" aria-label="Buksan ang search" id="searchToggle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+        <button class="icon-btn" aria-label="Ilipat sa dark mode" id="themeToggle">
+          <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <button class="icon-btn" aria-label="Accessibility options" id="a11yToggle" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="21.17" y1="8" x2="12" y2="8"/><line x1="3.95" y1="6.06" x2="8.54" y2="14"/><line x1="10.88" y1="21.94" x2="15.46" y2="14"/></svg>
+        </button>
+        <button class="hamburger" id="hamburger" aria-label="Buksan ang menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="a11y-panel" id="a11yPanel" role="dialog" aria-label="Accessibility settings">
+    <div class="a11y-panel__title">Accessibility</div>
+    <div class="a11y-group">
+      <div class="a11y-group__label">Laki ng teksto</div>
+      <div class="a11y-buttons">
+        <button class="a11y-btn" data-font="0.9">A−</button>
+        <button class="a11y-btn active" data-font="1">A</button>
+        <button class="a11y-btn" data-font="1.15">A+</button>
+      </div>
+    </div>
+    <div class="a11y-group">
+      <div class="a11y-group__label">Contrast</div>
+      <div class="a11y-buttons">
+        <button class="a11y-btn active" data-contrast="normal">Normal</button>
+        <button class="a11y-btn" data-contrast="high">Mataas</button>
+      </div>
+    </div>
+    <div class="a11y-group">
+      <div class="a11y-group__label">Galaw</div>
+      <div class="a11y-buttons">
+        <button class="a11y-btn active" data-motion="normal">Normal</button>
+        <button class="a11y-btn" data-motion="reduced">Bawas</button>
+      </div>
+    </div>
+    <button class="a11y-reset" id="a11yReset">I-reset ang settings</button>
+  </div>
+
+  <div class="drawer-overlay" id="drawerOverlay" aria-hidden="true"></div>
+  <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Mobile navigation">
+    <div class="drawer__header">
+      <div class="brand">
+        <div class="brand__seal" aria-hidden="true"><img class="js-logo" src="assets/mayantoc.jpg" alt="" /></div>
+        <div class="brand__text">
+          <span class="brand__name">Mayantoc</span>
+          <span class="brand__sub">Lalawigan ng Tarlac</span>
+        </div>
+      </div>
+      <button class="drawer__close" id="drawerClose" aria-label="Isara ang menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <nav class="drawer__nav" aria-label="Mobile navigation links">
+      <a href="index.html" class="drawer__link">Home</a>
+      <a href="about.html" class="drawer__link">Tungkol</a>
+      <a href="government.html" class="drawer__link">Pamahalaan</a>
+      <a href="services.html" class="drawer__link">Serbisyo</a>
+      <a href="barangays.html" class="drawer__link active">Barangay</a>
+      <a href="news.html" class="drawer__link">Balita</a>
+      <a href="events.html" class="drawer__link">Events</a>
+      <a href="awards.html" class="drawer__link">Parangal</a>
+      <a href="transparency.html" class="drawer__link">Transparency</a>
+      <a href="contact.html" class="drawer__link">Contact</a>
+    </nav>
+  </aside>
+
+  <div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Site search" style="position:fixed;inset:0;background:rgba(24,54,40,0.68);backdrop-filter:blur(8px);z-index:3000;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s;padding:80px 20px 20px;overflow-y:auto;">
+    <div style="max-width:680px;margin:0 auto;background:var(--white);border-radius:var(--radius-lg);box-shadow:var(--shadow-xl);overflow:hidden;">
+      <div style="position:relative;border-bottom:1px solid var(--border);">
+        <svg style="position:absolute;left:22px;top:50%;transform:translateY(-50%);width:20px;height:20px;color:var(--muted);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="siteSearchInput" placeholder="Maghanap ng serbisyo, barangay, dokumento…" aria-label="Search site" autocomplete="off" style="width:100%;padding:22px 60px 22px 58px;border:none;background:transparent;font-family:inherit;font-size:17px;color:var(--ink);outline:none;" />
+        <button id="searchClose" aria-label="Isara ang search" style="position:absolute;right:16px;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--muted);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div id="searchResults" style="max-height:440px;overflow-y:auto;"></div>
+    </div>
+  </div>
+
+  <main id="main">
+
+    <section class="page-header">
+      <div class="container">
+        <div class="page-header__eyebrow">24 barangay</div>
+        <h1>Mga barangay ng Mayantoc</h1>
+        <p>Hanapin ang inyong barangay. Pindutin ang barangay para makita ang mga opisyal, SK officials, kasaysayan, at contact information.</p>
+        <div class="page-header__crumbs"><a href="index.html">Home</a> <span>/</span> <span>Barangay</span></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="brgy-toolbar reveal">
+          <div class="brgy-search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="brgySearch" placeholder="Hanapin ang barangay…" aria-label="Hanapin ang barangay" autocomplete="off" />
+          </div>
+          <div class="brgy-count" id="brgyCount">24 barangay</div>
+        </div>
+        <div class="brgy-alpha" id="brgyAlpha"></div>
+        <div class="brgy-list" id="brgyList"></div>
+      </div>
+    </section>
+
+    <section class="section section--alt">
+      <div class="container">
+        <div class="section__header reveal">
+          <div class="section__label">Para sa barangay</div>
+          <h2 class="section__title">Mga karaniwang hinahanap</h2>
+        </div>
+        <div class="award-grid">
+          <article class="award-card reveal">
+            <div class="award-card__year">Clearance</div>
+            <h3 class="award-card__title">Barangay clearance</h3>
+            <p class="award-card__body">Kunin sa barangay hall ng inyong lugar. Kailangan ito sa karamihan ng transaksyon sa munisipyo.</p>
+          </article>
+          <article class="award-card reveal">
+            <div class="award-card__year">Assembly</div>
+            <h3 class="award-card__title">Barangay assembly</h3>
+            <p class="award-card__body">Ginaganap dalawang beses bawat taon. Tingnan ang events page para sa petsa.</p>
+            <a class="news-featured__link" href="events.html" style="margin-top:12px;display:inline-flex;">Tingnan ang events</a>
+          </article>
+          <article class="award-card reveal">
+            <div class="award-card__year">Ulat</div>
+            <h3 class="award-card__title">Magsumbong o magbigay ng puna</h3>
+            <p class="award-card__body">Maaaring dumaan sa munisipyo kung hindi natugunan sa barangay.</p>
+            <a class="news-featured__link" href="contact.html" style="margin-top:12px;display:inline-flex;">Contact</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer__hero">
+        <div class="footer__hero-title">MAYANTOC</div>
+        <div class="footer__hero-sub">Serbisyong malapit sa tao, bawat araw.</div>
+      </div>
+
+      <div class="footer__grid">
+        <div>
+          <div class="footer__brand">
+            <div class="brand__seal" aria-hidden="true"><img class="js-logo" src="assets/mayantoc.jpg" alt="" /></div>
+            <div class="brand__text">
+              <span class="brand__name">Bayan ng Mayantoc</span>
+              <span class="brand__sub">Lalawigan ng Tarlac</span>
+            </div>
+          </div>
+          <p class="footer__desc">Opisyal na digital portal ng Pamahalaang Bayan ng Mayantoc, Tarlac.</p>
+        </div>
+        <div>
+          <h3 class="footer__title">Pamahalaan</h3>
+          <div class="footer__links">
+            <a href="about.html">Tungkol sa bayan</a>
+            <a href="government.html">Mga opisyal</a>
+            <a href="transparency.html">Transparency</a>
+            <a href="awards.html">Mga parangal</a>
+          </div>
+        </div>
+        <div>
+          <h3 class="footer__title">Serbisyo</h3>
+          <div class="footer__links">
+            <a href="services.html">Civil registry</a>
+            <a href="services.html">Business permits</a>
+            <a href="services.html">Real property tax</a>
+            <a href="services.html">Kalusugan</a>
+          </div>
+        </div>
+        <div>
+          <h3 class="footer__title">Mabilisang link</h3>
+          <div class="footer__links">
+            <a href="barangays.html">24 barangay</a>
+            <a href="news.html">Balita</a>
+            <a href="events.html">Events</a>
+            <a href="contact.html">Contact</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <span>© 2026 Bayan ng Mayantoc. Lahat ng karapatan ay nakalaan.</span>
+        <div class="footer__bottom-links">
+          <a href="contact.html">Privacy</a>
+          <a href="contact.html">Accessibility</a>
+          <a href="contact.html">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <button class="back-to-top" id="backToTop" aria-label="Balik sa itaas">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+  </button>
+
+  <!-- ============ BARANGAY MODAL ============ -->
+  <div class="brgy-modal" id="brgyModal" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Impormasyon ng barangay">
+    <div class="brgy-modal__dialog">
+      <button class="brgy-modal__close" id="brgyModalClose" aria-label="Isara ang barangay info">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="brgy-modal__scroll" id="brgyModalBody"></div>
+    </div>
+  </div>
+
+  <script src="assets/app.js?v=2"></script>
+
+  <script>
+/* ==================================================================
+   LIVE CLOCK (Asia/Manila)
+   ================================================================== */
+(function () {
+  const clockEl = document.getElementById('live-clock');
+  if (!clockEl) return;
+  const dateEl = clockEl.querySelector('.header__clock-date');
+  const timeEl = clockEl.querySelector('.header__clock-time');
+  const TIMEZONE = 'Asia/Manila';
+
+  function updateClock() {
+    const now = new Date();
+    const petsa = new Intl.DateTimeFormat('fil-PH', {
+      timeZone: TIMEZONE, weekday: 'short', month: 'short', day: 'numeric'
+    }).format(now);
+    const oras = new Intl.DateTimeFormat('fil-PH', {
+      timeZone: TIMEZONE, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
+    }).format(now);
+    if (dateEl) dateEl.textContent = petsa;
+    if (timeEl) timeEl.textContent = oras;
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+})();
+
+/* ==================================================================
+   MAYANTOC — BARANGAY DATA + MODAL LOGIC
+   ================================================================== */
+
+function makeBrgy(name, opts) {
+  return {
+    name: name,
+    image: opts.image || "",
+    logo: opts.logo || "",
+    description: opts.description || "",
+    history: opts.history || "",
+    officials: (opts.officials || []).map(function (row) {
+      return { position: row[0] || "", img: row[1] || "", name: row[2] || "" };
+    }),
+    skOfficials: (opts.sk || []).map(function (row) {
+      return { position: row[0] || "", img: row[1] || "", name: row[2] || "" };
+    }),
+    contact: opts.contact || { address: "", phone: "", email: "", hours: "" }
+  };
+}
+
+window.MAY = window.MAY || {};
+window.MAY.DATA = window.MAY.DATA || {};
+
+window.MAY.DATA.barangays = [
+  makeBrgy("Ambalingit", {
+    image: "assets/icon1.jpg", logo: "assets/icon1.jpg", description: "", history: "",
+    officials: [
+      ["Punong Barangay","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Secretary","assets/icon1.jpg",""],["Barangay Treasurer","assets/icon1.jpg",""]
+    ],
+    sk: [
+      ["SK Chairperson","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""]
+    ],
+    contact: { address: "", phone: "", email: "", hours: "" }
+  }),
+  makeBrgy("Baybayaoas", {
+    image: "assets/icon1.jpg", logo: "assets/icon1.jpg", description: "", history: "",
+    officials: [
+      ["Punong Barangay","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Secretary","assets/icon1.jpg",""],["Barangay Treasurer","assets/icon1.jpg",""]
+    ],
+    sk: [
+      ["SK Chairperson","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""]
+    ],
+    contact: { address: "", phone: "", email: "", hours: "" }
+  }),
+  makeBrgy("Bigbiga", {
+    image: "assets/icon1.jpg", logo: "assets/icon1.jpg", description: "", history: "",
+    officials: [
+      ["Punong Barangay","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Secretary","assets/icon1.jpg",""],["Barangay Treasurer","assets/icon1.jpg",""]
+    ],
+    sk: [
+      ["SK Chairperson","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""]
+    ],
+    contact: { address: "", phone: "", email: "", hours: "" }
+  }),
+  makeBrgy("Binbinaca", {
+    image: "assets/icon1.jpg", logo: "assets/icon1.jpg", description: "", history: "",
+    officials: [
+      ["Punong Barangay","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Secretary","assets/icon1.jpg",""],["Barangay Treasurer","assets/icon1.jpg",""]
+    ],
+    sk: [
+      ["SK Chairperson","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""]
+    ],
+    contact: { address: "", phone: "", email: "", hours: "" }
+  }),
+  makeBrgy("Calabtangan", {
+    image: "assets/icon1.jpg", logo: "assets/icon1.jpg", description: "", history: "",
+    officials: [
+      ["Punong Barangay","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Secretary","assets/icon1.jpg",""],["Barangay Treasurer","assets/icon1.jpg",""]
+    ],
+    sk: [
+      ["SK Chairperson","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""]
+    ],
+    contact: { address: "", phone: "", email: "", hours: "" }
+  }),
+  makeBrgy("Caocaoayan", {
+    image: "assets/icon1.jpg", logo: "assets/icon1.jpg", description: "", history: "",
+    officials: [
+      ["Punong Barangay","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Secretary","assets/icon1.jpg",""],["Barangay Treasurer","assets/icon1.jpg",""]
+    ],
+    sk: [
+      ["SK Chairperson","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""]
+    ],
+    contact: { address: "", phone: "", email: "", hours: "" }
+  }),
+  makeBrgy("Carabaoan", {
+    image: "assets/icon1.jpg", logo: "assets/icon1.jpg", description: "", history: "",
+    officials: [
+      ["Punong Barangay","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Secretary","assets/icon1.jpg",""],["Barangay Treasurer","assets/icon1.jpg",""]
+    ],
+    sk: [
+      ["SK Chairperson","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""]
+    ],
+    contact: { address: "", phone: "", email: "", hours: "" }
+  }),
+  makeBrgy("Cubcub", {
+    image: "assets/icon1.jpg", logo: "assets/icon1.jpg", description: "", history: "",
+    officials: [
+      ["Punong Barangay","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Secretary","assets/icon1.jpg",""],["Barangay Treasurer","assets/icon1.jpg",""]
+    ],
+    sk: [
+      ["SK Chairperson","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""]
+    ],
+    contact: { address: "", phone: "", email: "", hours: "" }
+  }),
+  makeBrgy("Gayonggayong", {
+    image: "assets/icon1.jpg", logo: "assets/icon1.jpg", description: "", history: "",
+    officials: [
+      ["Punong Barangay","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Secretary","assets/icon1.jpg",""],["Barangay Treasurer","assets/icon1.jpg",""]
+    ],
+    sk: [
+      ["SK Chairperson","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""]
+    ],
+    contact: { address: "", phone: "", email: "", hours: "" }
+  }),
+  makeBrgy("Gossood", {
+    image: "assets/icon1.jpg", logo: "assets/icon1.jpg", description: "", history: "",
+    officials: [
+      ["Punong Barangay","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Secretary","assets/icon1.jpg",""],["Barangay Treasurer","assets/icon1.jpg",""]
+    ],
+    sk: [
+      ["SK Chairperson","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""]
+    ],
+    contact: { address: "", phone: "", email: "", hours: "" }
+  }),
+  makeBrgy("Labney", {
+    image: "assets/icon1.jpg", logo: "assets/icon1.jpg", description: "", history: "",
+    officials: [
+      ["Punong Barangay","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Secretary","assets/icon1.jpg",""],["Barangay Treasurer","assets/icon1.jpg",""]
+    ],
+    sk: [
+      ["SK Chairperson","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""]
+    ],
+    contact: { address: "", phone: "", email: "", hours: "" }
+  }),
+  makeBrgy("Mamonit", {
+    image: "assets/icon1.jpg", logo: "assets/icon1.jpg", description: "", history: "",
+    officials: [
+      ["Punong Barangay","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Secretary","assets/icon1.jpg",""],["Barangay Treasurer","assets/icon1.jpg",""]
+    ],
+    sk: [
+      ["SK Chairperson","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""]
+    ],
+    contact: { address: "", phone: "", email: "", hours: "" }
+  }),
+  makeBrgy("Maniniog", {
+    image: "assets/icon1.jpg", logo: "assets/icon1.jpg", description: "", history: "",
+    officials: [
+      ["Punong Barangay","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Secretary","assets/icon1.jpg",""],["Barangay Treasurer","assets/icon1.jpg",""]
+    ],
+    sk: [
+      ["SK Chairperson","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""]
+    ],
+    contact: { address: "", phone: "", email: "", hours: "" }
+  }),
+  makeBrgy("Mapandan", {
+    image: "assets/icon1.jpg", logo: "assets/icon1.jpg", description: "", history: "",
+    officials: [
+      ["Punong Barangay","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Secretary","assets/icon1.jpg",""],["Barangay Treasurer","assets/icon1.jpg",""]
+    ],
+    sk: [
+      ["SK Chairperson","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""]
+    ],
+    contact: { address: "", phone: "", email: "", hours: "" }
+  }),
+  makeBrgy("Melecio Manganaan", {
+    image: "assets/icon1.jpg", logo: "assets/icon1.jpg", description: "", history: "",
+    officials: [
+      ["Punong Barangay","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Secretary","assets/icon1.jpg",""],["Barangay Treasurer","assets/icon1.jpg",""]
+    ],
+    sk: [
+      ["SK Chairperson","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""]
+    ],
+    contact: { address: "", phone: "", email: "", hours: "" }
+  }),
+  makeBrgy("Nambalan", {
+    image: "assets/icon1.jpg", logo: "assets/icon1.jpg", description: "", history: "",
+    officials: [
+      ["Punong Barangay","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Secretary","assets/icon1.jpg",""],["Barangay Treasurer","assets/icon1.jpg",""]
+    ],
+    sk: [
+      ["SK Chairperson","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""]
+    ],
+    contact: { address: "", phone: "", email: "", hours: "" }
+  }),
+  makeBrgy("Pedro L. Quines", {
+    image: "assets/icon1.jpg", logo: "assets/icon1.jpg", description: "", history: "",
+    officials: [
+      ["Punong Barangay","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Secretary","assets/icon1.jpg",""],["Barangay Treasurer","assets/icon1.jpg",""]
+    ],
+    sk: [
+      ["SK Chairperson","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""]
+    ],
+    contact: { address: "", phone: "", email: "", hours: "" }
+  }),
+  makeBrgy("Pitombayog", {
+    image: "assets/icon1.jpg", logo: "assets/icon1.jpg", description: "", history: "",
+    officials: [
+      ["Punong Barangay","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Secretary","assets/icon1.jpg",""],["Barangay Treasurer","assets/icon1.jpg",""]
+    ],
+    sk: [
+      ["SK Chairperson","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""]
+    ],
+    contact: { address: "", phone: "", email: "", hours: "" }
+  }),
+  makeBrgy("Poblacion Norte", {
+    image: "assets/icon1.jpg", logo: "assets/icon1.jpg", description: "", history: "",
+    officials: [
+      ["Punong Barangay","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Secretary","assets/icon1.jpg",""],["Barangay Treasurer","assets/icon1.jpg",""]
+    ],
+    sk: [
+      ["SK Chairperson","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""]
+    ],
+    contact: { address: "", phone: "", email: "", hours: "" }
+  }),
+  makeBrgy("Poblacion Sur", {
+    image: "assets/icon1.jpg", logo: "assets/icon1.jpg", description: "", history: "",
+    officials: [
+      ["Punong Barangay","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Secretary","assets/icon1.jpg",""],["Barangay Treasurer","assets/icon1.jpg",""]
+    ],
+    sk: [
+      ["SK Chairperson","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""]
+    ],
+    contact: { address: "", phone: "", email: "", hours: "" }
+  }),
+  makeBrgy("Rotrottooc", {
+    image: "assets/icon1.jpg", logo: "assets/icon1.jpg", description: "", history: "",
+    officials: [
+      ["Punong Barangay","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Secretary","assets/icon1.jpg",""],["Barangay Treasurer","assets/icon1.jpg",""]
+    ],
+    sk: [
+      ["SK Chairperson","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""]
+    ],
+    contact: { address: "", phone: "", email: "", hours: "" }
+  }),
+  makeBrgy("San Bartolome", {
+    image: "assets/icon1.jpg", logo: "assets/icon1.jpg", description: "", history: "",
+    officials: [
+      ["Punong Barangay","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Secretary","assets/icon1.jpg",""],["Barangay Treasurer","assets/icon1.jpg",""]
+    ],
+    sk: [
+      ["SK Chairperson","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""]
+    ],
+    contact: { address: "", phone: "", email: "", hours: "" }
+  }),
+  makeBrgy("San Jose", {
+    image: "assets/icon1.jpg", logo: "assets/icon1.jpg", description: "", history: "",
+    officials: [
+      ["Punong Barangay","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Secretary","assets/icon1.jpg",""],["Barangay Treasurer","assets/icon1.jpg",""]
+    ],
+    sk: [
+      ["SK Chairperson","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""]
+    ],
+    contact: { address: "", phone: "", email: "", hours: "" }
+  }),
+  makeBrgy("Taldiapan", {
+    image: "assets/icon1.jpg", logo: "assets/icon1.jpg", description: "", history: "",
+    officials: [
+      ["Punong Barangay","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Kagawad","assets/icon1.jpg",""],["Barangay Kagawad","assets/icon1.jpg",""],
+      ["Barangay Secretary","assets/icon1.jpg",""],["Barangay Treasurer","assets/icon1.jpg",""]
+    ],
+    sk: [
+      ["SK Chairperson","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""],
+      ["SK Kagawad","assets/icon1.jpg",""],["SK Kagawad","assets/icon1.jpg",""]
+    ],
+    contact: { address: "Taldiapan, Mayantoc, Tarlac", phone: "", email: "", hours: "" }
+  })
+];
+
+/* ==================================================================
+   BARANGAY LIST + MODAL LOGIC
+   ================================================================== */
+(function () {
+  'use strict';
+
+  const D = window.MAY.DATA;
+  const I = window.MAY.ICONS || {};
+  const $  = window.MAY.$  || (s => document.querySelector(s));
+  const $$ = window.MAY.$$ || (s => Array.from(document.querySelectorAll(s)));
+
+  const list   = $('#brgyList');
+  const count  = $('#brgyCount');
+  const search = $('#brgySearch');
+  const alpha  = $('#brgyAlpha');
+  let letter = 'ALL';
+
+  if (!list || !alpha) return;
+
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+  function isFilled(v) {
+    return v != null && String(v).trim() !== '' && !String(v).trim().startsWith('[');
+  }
+  function initials(name) {
+    if (!name || String(name).startsWith('[')) return '?';
+    return String(name).trim().split(/\s+/).slice(0, 2).map(w => w[0]).join('').toUpperCase();
+  }
+
+  const letters = ['ALL', ...Array.from(
+    new Set(D.barangays.map(b => (b.name[0] || '').toUpperCase()).filter(Boolean))
+  ).sort()];
+  alpha.innerHTML = letters.map(l =>
+    '<button class="brgy-alpha__btn' + (l === 'ALL' ? ' active' : '') + '" data-letter="' + esc(l) + '">' + esc(l) + '</button>'
+  ).join('');
+
+  function render() {
+    const q = (search ? search.value : '').toLowerCase().trim();
+    let rows = D.barangays.filter(b => b.name.toLowerCase().includes(q));
+    if (letter !== 'ALL') rows = rows.filter(b => (b.name[0] || '').toUpperCase() === letter);
+    count.textContent = rows.length + ' barangay';
+    if (!rows.length) {
+      list.innerHTML = '<div class="brgy-empty">Walang nahanap. Burahin ang search o pindutin ang ALL.</div>';
+      return;
+    }
+    const arrowPath = I.arrow || '<line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>';
+    list.innerHTML = rows.map(b => {
+      const n = D.barangays.findIndex(x => x.name === b.name) + 1;
+      return '<div class="brgy-row" data-brgy="' + esc(b.name) + '" role="button" tabindex="0" aria-label="Buksan ang impormasyon ng Barangay ' + esc(b.name) + '">' +
+        '<span class="brgy-row__num">' + String(n).padStart(2, '0') + '</span>' +
+        '<span class="brgy-row__name">' + esc(b.name) + '</span>' +
+        '<span class="brgy-row__arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">' + arrowPath + '</svg></span>' +
+      '</div>';
+    }).join('');
+  }
+
+  if (search) search.addEventListener('input', render);
+  alpha.addEventListener('click', e => {
+    const btn = e.target.closest('.brgy-alpha__btn');
+    if (!btn) return;
+    letter = btn.dataset.letter;
+    $$('.brgy-alpha__btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    render();
+  });
+  render();
+
+  // ---- MODAL ----
+  let modal = document.getElementById('brgyModal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.className = 'brgy-modal';
+    modal.id = 'brgyModal';
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-hidden', 'true');
+    modal.innerHTML = '<div class="brgy-modal__dialog">' +
+      '<button class="brgy-modal__close" id="brgyModalClose" aria-label="Isara">' +
+        '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>' +
+      '</button>' +
+      '<div class="brgy-modal__scroll" id="brgyModalBody"></div>' +
+    '</div>';
+    document.body.appendChild(modal);
+  }
+  const modalBody  = document.getElementById('brgyModalBody');
+  const modalClose = document.getElementById('brgyModalClose');
+  let lastFocused = null;
+
+  function officialsHTML(rows, emptyLabel) {
+    if (!rows || !rows.length) return '<div class="brgy-modal__empty">' + emptyLabel + '</div>';
+    return rows.map(o => {
+      const nm    = o.name || '—';
+      const photo = o.img && isFilled(o.img)
+        ? '<img src="' + esc(o.img) + '" alt="' + esc(nm) + '" loading="lazy" ' +
+          'onerror="this.outerHTML=\'<span class=&quot;official-card__initials&quot;>' + esc(initials(nm)) + '</span>\'" />'
+        : '<span class="official-card__initials">' + esc(initials(nm)) + '</span>';
+      return '<div class="official-card">' +
+        '<div class="official-card__img">' + photo + '</div>' +
+        '<div class="official-card__body">' +
+          '<div class="official-card__name">' + esc(nm) + '</div>' +
+          '<div class="official-card__role">' + esc(o.position || '') + '</div>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+  }
+
+  function historyHTML(text) {
+    const paras = String(text || '').split(/\n\s*\n|\n/).map(s => s.trim()).filter(Boolean);
+    if (!paras.length) {
+      return '<div class="brgy-history brgy-history--empty"><p>Ilalagay pa ang kasaysayan ng barangay na ito.</p></div>';
+    }
+    return '<div class="brgy-history">' + paras.map(p => '<p>' + esc(p) + '</p>').join('') + '</div>';
+  }
+
+  function contactItem(label, value, href) {
+    const has = isFilled(value);
+    const inner = has && href
+      ? '<a href="' + esc(href) + '">' + esc(value) + '</a>'
+      : esc(has ? value : '—');
+    return '<div class="brgy-contact__item">' +
+      '<span class="brgy-contact__label">' + esc(label) + '</span>' +
+      '<span class="brgy-contact__value">' + inner + '</span>' +
+    '</div>';
+  }
+
+  function openModal(brgyName) {
+    const b = D.barangays.find(x => x.name === brgyName);
+    if (!b) return;
+
+    const heroImg = b.image && isFilled(b.image)
+      ? '<img src="' + esc(b.image) + '" alt="Larawan ng Barangay ' + esc(b.name) + '" ' +
+        'onerror="this.outerHTML=\'<div class=&quot;brgy-modal__hero-placeholder&quot;>Larawan ng Barangay</div>\'" />'
+      : '<div class="brgy-modal__hero-placeholder">Larawan ng Barangay</div>';
+
+    const logoBlock = b.logo && isFilled(b.logo)
+      ? '<img src="' + esc(b.logo) + '" alt="Logo ng Barangay ' + esc(b.name) + '" ' +
+        'onerror="this.outerHTML=\'<span>' + esc(initials(b.name)) + '</span>\'" />'
+      : '<span>' + esc(initials(b.name)) + '</span>';
+
+    const c = b.contact || {};
+    const telHref  = isFilled(c.phone) ? 'tel:' + String(c.phone).replace(/[^\d+]/g, '') : '';
+    const mailHref = isFilled(c.email) ? 'mailto:' + c.email : '';
+
+    modalBody.innerHTML =
+      '<div class="brgy-modal__hero">' +
+        heroImg +
+        '<div class="brgy-modal__hero-overlay"></div>' +
+        '<div class="brgy-modal__hero-content">' +
+          '<div class="brgy-modal__logo">' + logoBlock + '</div>' +
+          '<div>' +
+            '<div class="brgy-modal__eyebrow">Barangay</div>' +
+            '<h2 class="brgy-modal__title" id="brgyModalTitle">' + esc(b.name) + '</h2>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="brgy-modal__content">' +
+        (b.description && isFilled(b.description)
+          ? '<p class="brgy-modal__desc">' + esc(b.description) + '</p>' : '') +
+        '<section class="brgy-modal__section">' +
+          '<div class="brgy-modal__section-head"><h3>Mga Opisyal ng Barangay</h3><span class="brgy-modal__section-line"></span></div>' +
+          '<div class="official-grid">' + officialsHTML(b.officials, 'Walang nakalagay na opisyal.') + '</div>' +
+        '</section>' +
+        '<section class="brgy-modal__section">' +
+          '<div class="brgy-modal__section-head"><h3>Mga Opisyal ng Sangguniang Kabataan</h3><span class="brgy-modal__section-line"></span></div>' +
+          '<div class="official-grid">' + officialsHTML(b.skOfficials, 'Walang nakalagay na SK opisyal.') + '</div>' +
+        '</section>' +
+        '<section class="brgy-modal__section">' +
+          '<div class="brgy-modal__section-head"><h3>Kasaysayan at Tungkol sa Barangay</h3><span class="brgy-modal__section-line"></span></div>' +
+          historyHTML(b.history) +
+        '</section>' +
+        '<section class="brgy-modal__section">' +
+          '<div class="brgy-modal__section-head"><h3>Contact Information</h3><span class="brgy-modal__section-line"></span></div>' +
+          '<div class="brgy-contact">' +
+            contactItem('Address', c.address) +
+            contactItem('Telepono', c.phone, telHref) +
+            contactItem('Email', c.email, mailHref) +
+            contactItem('Oras ng opisina', c.hours) +
+          '</div>' +
+        '</section>' +
+      '</div>';
+
+    modal.setAttribute('aria-labelledby', 'brgyModalTitle');
+    modalBody.scrollTop = 0;
+    lastFocused = document.activeElement;
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    if (modalClose) modalClose.focus();
+  }
+
+  function closeModal() {
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    if (lastFocused) lastFocused.focus();
+  }
+
+  list.addEventListener('click', e => {
+    const row = e.target.closest('.brgy-row');
+    if (row) openModal(row.dataset.brgy);
+  });
+  list.addEventListener('keydown', e => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    const row = e.target.closest('.brgy-row');
+    if (row) { e.preventDefault(); openModal(row.dataset.brgy); }
+  });
+
+  if (modalClose) modalClose.addEventListener('click', closeModal);
+  modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+  });
+
+  if (MAY.observeReveals) MAY.observeReveals();
+  else $$('.reveal').forEach(el => el.classList.add('visible'));
+})();
+  </script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('sw.js').catch(function (e) { console.warn('SW failed', e); });
+      });
+    }
+  </script>
+</body>
+</html>

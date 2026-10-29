@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Home · Bayan ng Mayantoc, Tarlac</title>
+  <meta name="description" content="Opisyal na digital portal ng Pamahalaang Bayan ng Mayantoc, Tarlac." />
+  <meta name="theme-color" content="#24503A" />
+  <meta property="og:title" content="Home · Bayan ng Mayantoc" />
+  <meta property="og:description" content="Opisyal na digital portal ng Pamahalaang Bayan ng Mayantoc, Tarlac." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="assets/mayantoc.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Mayantoc" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+</head>
+<body data-page="index.html">
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader__seal"><img class="js-logo" src="assets/mayantoc.jpg" alt="" /></div>
+    <div class="loader__text">Mayantoc</div>
+    <div class="loader__sub">Lalawigan ng Tarlac</div>
+    <div class="loader__bar"><span></span></div>
+  </div>
+
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+  <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
+  <div class="top-bar">
+    <div class="container">
+      <span>Republika ng Pilipinas</span><span class="sep">·</span>
+      <span>Lalawigan ng Tarlac</span><span class="sep">·</span>
+      <span>Bayan ng Mayantoc</span>
+    </div>
+  </div>
+
+  <header class="header" id="header">
+    <div class="container header__inner">
+      <a href="index.html" class="brand" aria-label="Bayan ng Mayantoc — Home">
+        <div class="brand__seal" aria-hidden="true">
+          <img class="js-logo" src="assets/mayantoc.jpg" alt="" />
+        </div>
+        <div class="brand__text">
+          <span class="brand__name">Bayan ng Mayantoc</span>
+          <span class="brand__sub">Lalawigan ng Tarlac</span>
+        </div>
+      </a>
+
+      <nav class="nav" aria-label="Pangunahing nabigasyon">
+        <a href="index.html" class="nav__link active">Home</a>
+        <a href="about.html" class="nav__link">Tungkol</a>
+        <a href="government.html" class="nav__link">Pamahalaan</a>
+        <a href="services.html" class="nav__link">Serbisyo</a>
+        <a href="barangays.html" class="nav__link">Barangay</a>
+        <a href="news.html" class="nav__link">Balita</a>
+        <a href="events.html" class="nav__link">Events</a>
+        <a href="awards.html" class="nav__link">Parangal</a>
+        <a href="transparency.html" class="nav__link">Transparency</a>
+        <a href="contact.html" class="nav__link">Contact</a>
+      </nav>
+
+      <div class="header__actions">
+        <!-- LIVE CLOCK -->
+        <div class="header__clock" id="live-clock" aria-live="off">
+          <span class="header__clock-date">--</span>
+          <span class="header__clock-time">--:--</span>
+        </div>
+
+        <button class="icon-btn" aria-label="Buksan ang search" id="searchToggle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+        <button class="icon-btn" aria-label="Ilipat sa dark mode" id="themeToggle">
+          <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <button class="icon-btn" aria-label="Accessibility options" id="a11yToggle" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="21.17" y1="8" x2="12" y2="8"/><line x1="3.95" y1="6.06" x2="8.54" y2="14"/><line x1="10.88" y1="21.94" x2="15.46" y2="14"/></svg>
+        </button>
+        <button class="hamburger" id="hamburger" aria-label="Buksan ang menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="a11y-panel" id="a11yPanel" role="dialog" aria-label="Accessibility settings">
+    <div class="a11y-panel__title">Accessibility</div>
+    <div class="a11y-group">
+      <div class="a11y-group__label">Laki ng teksto</div>
+      <div class="a11y-buttons">
+        <button class="a11y-btn" data-font="0.9">A−</button>
+        <button class="a11y-btn active" data-font="1">A</button>
+        <button class="a11y-btn" data-font="1.15">A+</button>
+      </div>
+    </div>
+    <div class="a11y-group">
+      <div class="a11y-group__label">Contrast</div>
+      <div class="a11y-buttons">
+        <button class="a11y-btn active" data-contrast="normal">Normal</button>
+        <button class="a11y-btn" data-contrast="high">Mataas</button>
+      </div>
+    </div>
+    <div class="a11y-group">
+      <div class="a11y-group__label">Galaw</div>
+      <div class="a11y-buttons">
+        <button class="a11y-btn active" data-motion="normal">Normal</button>
+        <button class="a11y-btn" data-motion="reduced">Bawas</button>
+      </div>
+    </div>
+    <button class="a11y-reset" id="a11yReset">I-reset ang settings</button>
+  </div>
+
+  <div class="drawer-overlay" id="drawerOverlay" aria-hidden="true"></div>
+  <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Mobile navigation">
+    <div class="drawer__header">
+      <div class="brand">
+        <div class="brand__seal" aria-hidden="true"><img class="js-logo" src="assets/mayantoc.jpg" alt="" /></div>
+        <div class="brand__text">
+          <span class="brand__name">Mayantoc</span>
+          <span class="brand__sub">Lalawigan ng Tarlac</span>
+        </div>
+      </div>
+      <button class="drawer__close" id="drawerClose" aria-label="Isara ang menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <nav class="drawer__nav" aria-label="Mobile navigation links">
+      <a href="index.html" class="drawer__link active">Home</a>
+      <a href="about.html" class="drawer__link">Tungkol</a>
+      <a href="government.html" class="drawer__link">Pamahalaan</a>
+      <a href="services.html" class="drawer__link">Serbisyo</a>
+      <a href="barangays.html" class="drawer__link">Barangay</a>
+      <a href="news.html" class="drawer__link">Balita</a>
+      <a href="events.html" class="drawer__link">Events</a>
+      <a href="awards.html" class="drawer__link">Parangal</a>
+      <a href="transparency.html" class="drawer__link">Transparency</a>
+      <a href="contact.html" class="drawer__link">Contact</a>
+    </nav>
+  </aside>
+
+  <div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Site search" style="position:fixed;inset:0;background:rgba(24,54,40,0.68);backdrop-filter:blur(8px);z-index:3000;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s;padding:80px 20px 20px;overflow-y:auto;">
+    <div style="max-width:680px;margin:0 auto;background:var(--white);border-radius:var(--radius-lg);box-shadow:var(--shadow-xl);overflow:hidden;">
+      <div style="position:relative;border-bottom:1px solid var(--border);">
+        <svg style="position:absolute;left:22px;top:50%;transform:translateY(-50%);width:20px;height:20px;color:var(--muted);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="siteSearchInput" placeholder="Maghanap ng serbisyo, barangay, dokumento…" aria-label="Search site" autocomplete="off" style="width:100%;padding:22px 60px 22px 58px;border:none;background:transparent;font-family:inherit;font-size:17px;color:var(--ink);outline:none;" />
+        <button id="searchClose" aria-label="Isara ang search" style="position:absolute;right:16px;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--muted);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div id="searchResults" style="max-height:440px;overflow-y:auto;"></div>
+    </div>
+  </div>
+
+  <main id="main">
+
+    <section class="hero" id="home" aria-label="Hero">
+      <div class="hero__bg" aria-hidden="true">
+        <img src="assets/mayantoc_bg.jpg" alt="" fetchpriority="high" />
+      </div>
+      <div class="hero__pattern" aria-hidden="true"></div>
+      <div class="hero__deco hero__deco--1" aria-hidden="true"></div>
+      <div class="hero__deco hero__deco--2" aria-hidden="true"></div>
+      <div class="hero__deco hero__deco--3" aria-hidden="true"></div>
+
+      <div class="container hero__content">
+        <div class="hero__left">
+          <span class="hero__label">Bayan ng Mayantoc · Tarlac</span>
+          <h1 class="hero__title">Sama-samang bumubuo ng <span class="accent">Mayantoc.</span></h1>
+          <p class="hero__sub">
+            Opisyal na digital portal ng Pamahalaang Bayan ng Mayantoc. Alamin ang mga serbisyo,
+            requirements, at anunsyo bago pa kayo pumunta sa munisipyo.
+          </p>
+          <div class="hero__buttons">
+            <a href="services.html" class="btn btn--primary">
+              Tingnan ang serbisyo
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+            <a href="about.html" class="btn btn--outline">Kilalanin ang bayan</a>
+          </div>
+        </div>
+
+        <div class="hero__right">
+          <div class="carousel-wrap" id="carouselWrap">
+            <img src="assets/FlagMY.png" alt="Tanawin ng Mayantoc" class="hero__image" />
+          </div>
+
+          <div class="float-card float-card--1" aria-hidden="true">
+            <div class="float-card__icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div><div class="float-card__num">24</div><div class="float-card__label">Barangay</div></div>
+          </div>
+
+          <div class="float-card float-card--2" aria-hidden="true">
+            <div class="float-card__icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div><div class="float-card__num">8–5</div><div class="float-card__label">Lunes–Biyernes</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="marquee" aria-hidden="true"><div class="marquee__track" id="marqueeTrack"></div></div>
+
+    <section class="section" id="services">
+      <div class="container">
+        <div class="section__header section__header--split reveal">
+          <div>
+            <div class="section__label">Serbisyo sa mamamayan</div>
+            <h2 class="section__title">Ano ang kailangan ninyo?</h2>
+          </div>
+          <p class="section__sub" style="max-width:36ch;">Ito ang pinakamadalas hanapin sa munisipyo. Pindutin para sa requirements.</p>
+        </div>
+        <div class="services-list" id="servicesList"></div>
+        <div style="margin-top:32px;" class="reveal">
+          <a href="services.html" class="btn btn--dark">Lahat ng serbisyo
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--alt">
+      <div class="container">
+        <div class="section__header reveal">
+          <div class="section__label">Mayantoc sa isang tingin</div>
+          <h2 class="section__title">Mabilisang datos</h2>
+        </div>
+        <div class="stats-editorial">
+          <div class="stat-block reveal">
+            <div class="stat-block__num" data-count="24">0</div>
+            <div class="stat-block__label">Barangay</div>
+            <div class="stat-block__desc">Mga komunidad na sakop ng bayan, bawat isa may sariling konseho.</div>
+          </div>
+          <div class="stat-block reveal">
+            <div class="stat-block__num">Tarlac</div>
+            <div class="stat-block__label">Lalawigan</div>
+            <div class="stat-block__desc">Nasa Gitnang Luzon, Pilipinas.</div>
+          </div>
+          <div class="stat-block reveal">
+            <div class="stat-block__num">1st</div>
+            <div class="stat-block__label">Distrito</div>
+            <div class="stat-block__desc">Municipality of Mayantoc, Province of Tarlac</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section__header section__header--split reveal">
+          <div>
+            <div class="section__label">Pinakabago</div>
+            <h2 class="section__title">Balita at anunsyo</h2>
+          </div>
+          <p class="section__sub" style="max-width:36ch;">Mga opisyal na abiso mula sa pamahalaang bayan.</p>
+        </div>
+        <div class="news-editorial">
+          <article class="news-featured reveal" id="newsFeatured"></article>
+          <div class="news-side reveal">
+            <div class="news-side__header">Iba pang update</div>
+            <div id="newsSideList"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--dark">
+      <div class="container">
+        <div class="section__header section__header--center reveal">
+          <div class="section__label">Bukas na pamamahala</div>
+          <h2 class="section__title">Transparency</h2>
+          <p class="section__sub">Mga dokumento at ulat na bukas sa publiko.</p>
+        </div>
+        <div class="transparency-grid" id="transparencyGrid"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer__hero">
+        <div class="footer__hero-title">MAYANTOC</div>
+        <div class="footer__hero-sub">Serbisyong malapit sa tao, bawat araw.</div>
+      </div>
+
+      <div class="footer__grid">
+        <div>
+          <div class="footer__brand">
+            <div class="brand__seal" aria-hidden="true"><img class="js-logo" src="assets/mayantoc.jpg" alt="" /></div>
+            <div class="brand__text">
+              <span class="brand__name">Bayan ng Mayantoc</span>
+              <span class="brand__sub">Lalawigan ng Tarlac</span>
+            </div>
+          </div>
+          <p class="footer__desc">Opisyal na digital portal ng Pamahalaang Bayan ng Mayantoc, Tarlac.</p>
+        </div>
+        <div>
+          <h3 class="footer__title">Pamahalaan</h3>
+          <div class="footer__links">
+            <a href="about.html">Tungkol sa bayan</a>
+            <a href="government.html">Mga opisyal</a>
+            <a href="transparency.html">Transparency</a>
+            <a href="awards.html">Mga parangal</a>
+          </div>
+        </div>
+        <div>
+          <h3 class="footer__title">Serbisyo</h3>
+          <div class="footer__links">
+            <a href="services.html">Civil registry</a>
+            <a href="services.html">Business permits</a>
+            <a href="services.html">Real property tax</a>
+            <a href="services.html">Kalusugan</a>
+          </div>
+        </div>
+        <div>
+          <h3 class="footer__title">Mabilisang link</h3>
+          <div class="footer__links">
+            <a href="barangays.html">24 barangay</a>
+            <a href="news.html">Balita</a>
+            <a href="events.html">Events</a>
+            <a href="contact.html">Contact</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <span>© 2026 Bayan ng Mayantoc. Lahat ng karapatan ay nakalaan.</span>
+        <div class="footer__bottom-links">
+          <a href="contact.html">Privacy</a>
+          <a href="contact.html">Accessibility</a>
+          <a href="contact.html">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <button class="back-to-top" id="backToTop" aria-label="Balik sa itaas">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+  </button>
+
+  <script src="assets/data.js"></script>
+  <script src="assets/app.js"></script>
+
+  <script>
+  (function () {
+    const D = MAY.DATA, I = MAY.ICONS, $ = MAY.$;
+
+    // 3D tilt on the hero image (pointer devices only)
+    const wrap = $('#carouselWrap'), hero = $('.hero');
+    if (wrap && hero && !MAY.isTouch && !MAY.reduced) {
+      hero.addEventListener('mousemove', e => {
+        const r = hero.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - 0.5;
+        const y = (e.clientY - r.top) / r.height - 0.5;
+        wrap.style.transform = `rotateY(${x * 5}deg) rotateX(${-y * 5}deg)`;
+      });
+      hero.addEventListener('mouseleave', () => wrap.style.transform = 'rotateY(0) rotateX(0)');
+    }
+
+    $('#servicesList').innerHTML = D.services.slice(0, 5).map((s, i) => `
+      <a class="service-row reveal" href="services.html">
+        <div class="service-row__num">${String(i + 1).padStart(2, '0')}</div>
+        <div class="service-row__name">${s.name}</div>
+        <div class="service-row__desc">${s.desc}</div>
+        <div class="service-row__arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">${I.arrow}</svg></div>
+      </a>`).join('');
+
+    const f = D.news[0];
+    $('#newsFeatured').innerHTML = `
+      <div class="news-featured__img"><img src="${f.img}" alt="" loading="lazy" /></div>
+      <div class="news-featured__body">
+        <div class="news-featured__meta">
+          <span class="news-featured__cat">${f.cat}</span>
+          <span class="news-featured__date">${f.date}</span>
+        </div>
+        <h3 class="news-featured__title">${f.title}</h3>
+        <p class="news-featured__excerpt">${f.excerpt}</p>
+        <a class="news-featured__link" href="news.html">Basahin
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">${I.arrow}</svg>
+        </a>
+      </div>`;
+
+    $('#newsSideList').innerHTML = D.news.slice(1, 5).map((n, i) => `
+      <a class="news-side__item" href="news.html">
+        <span class="news-side__num">${String(i + 2).padStart(2, '0')}</span>
+        <div class="news-side__body">
+          <div class="news-side__title">${n.title}</div>
+          <div class="news-side__date">${n.cat} · ${n.date}</div>
+        </div>
+        <span class="news-side__arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">${I.arrow}</svg></span>
+      </a>`).join('');
+
+    $('#transparencyGrid').innerHTML = D.transparency.map(t => `
+      <a class="transparency-card reveal" href="transparency.html">
+        <div class="transparency-card__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${I[t.icon]}</svg></div>
+        <h3 class="transparency-card__title">${t.title}</h3>
+        <p class="transparency-card__desc">${t.desc}</p>
+        <span class="transparency-card__link">Tingnan
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">${I.arrow}</svg>
+        </span>
+      </a>`).join('');
+
+    MAY.observeReveals();
+  })();
+  </script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('sw.js').catch(function (e) { console.warn('SW failed', e); });
+      });
+    }
+  </script>
+</body>
+</html>

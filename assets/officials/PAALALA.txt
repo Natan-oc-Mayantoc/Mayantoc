@@ -1,0 +1,29 @@
+Dito ilalagay ang mga larawan ng mga opisyal (mayor, vice mayor, atbp).
+
+PAANO GAMITIN
+--------------
+1. Ihanda ang larawan:
+   - Parisukat (square) na crop, hal. 600x600px o mas malaki.
+   - Malinaw, well-lit, mukha ay nasa gitna. Simpleng background kung maaari.
+   - I-save bilang .jpg o .png. Gamitin ang simpleng filename, walang space
+     — hal. "mayor.jpg", "vice-mayor.jpg", "councilor-1.jpg".
+
+2. Ilagay ang file dito mismo sa folder na ito:
+   assets/officials/mayor.jpg
+
+3. Buksan ang assets/data.js, hanapin ang "officials:" section, at ilagay
+   ang eksaktong filename sa "img" ng kaukulang opisyal:
+
+     { role: "Municipal Mayor", name: "Juan Dela Cruz",
+       desc: "Chief executive ng bayan ng Mayantoc.",
+       img: "mayor.jpg" }
+
+   Kung wala pang larawan, iwanan lang na blangko: img: ""
+   — lalabas ang paunang placeholder hanggang mailagay ang totoong larawan.
+
+4. I-save ang data.js at i-refresh ang government.html sa browser.
+   Awtomatiko na itong mag-a-adjust: parisukat na crop, may zoom-in
+   effect sa hover, at gumagana rin ito sa dark mode.
+
+Wala nang kailangang baguhin sa HTML o CSS — ang data.js lang ang
+kailangang i-edit.
