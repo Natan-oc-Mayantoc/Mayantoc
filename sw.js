@@ -1,5 +1,5 @@
 // Mayantoc PWA service worker
-const VERSION = 'mayantoc-v1';   // palitan (v2, v3...) tuwing may binago sa site para mag-update ang app
+const VERSION = 'mayantoc-v2';   // palitan (v2, v3...) tuwing may binago sa site para mag-update ang app
 const PRECACHE = [
   "about.html",
   "awards.html",
